@@ -1,6 +1,6 @@
 # ecom
 
-A small e-commerce REST API written in Go, using [Gin](https://github.com/gin-gonic/gin) and MongoDB. Users can sign up/log in, browse and search products, manage a cart and addresses, and check out. Auth is JWT-based.
+A small e-commerce app: a Go REST API (using [Gin](https://github.com/gin-gonic/gin) and MongoDB) with a Flutter mobile client. Users can sign up/log in, browse and search products, manage a cart and addresses, and check out. Auth is JWT-based.
 
 Full endpoint-by-endpoint reference (headers, body, params, responses, known quirks): **[API.md](API.md)**.
 
