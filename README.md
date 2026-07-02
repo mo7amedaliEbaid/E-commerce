@@ -22,6 +22,7 @@ middleware/           JWT auth middleware
 models/               MongoDB document schemas
 tokens/               JWT generation/validation
 docker-compose.yaml   Mongo + mongo-express for local dev
+mobile/               Flutter client app (see below)
 ```
 
 ## Prerequisites
@@ -97,6 +98,18 @@ docker-compose.yaml   Mongo + mongo-express for local dev
 ## Images
 
 Product images are hosted externally (e.g. [Cloudinary](https://cloudinary.com)) — this app has no upload endpoint. Upload an image there yourself, then pass the resulting URL as the `image` field when creating a product via `POST /admin/addproduct`. The app exposes a GET-only redirect at `GET /products/:id/image` so clients get a stable link instead of depending on the underlying image host directly.
+
+## Mobile app
+
+A simple Flutter client lives in `mobile/`, built against the endpoints in [API.md](API.md): login/signup, product list with search, add-to-cart, instant buy, a product-add dialog (via the unauthenticated `/admin/addproduct`), and a cart screen with remove/checkout. Session (token + user id) is held in memory only — no persistence across restarts.
+
+```bash
+cd mobile
+flutter pub get
+flutter run
+```
+
+Base URL is set in `mobile/lib/config.dart`. It defaults to `http://localhost:8000`, and auto-switches to `http://10.0.2.2:8000` on Android emulators (the alias emulators use to reach the host machine). Neither works from a **physical device** — edit `config.dart` to point at your dev machine's LAN IP instead (find it via System Settings → Wi-Fi → Details, or `ipconfig getifaddr en0`), and make sure the device is on the same Wi-Fi network. Flutter Web will also hit CORS errors against this backend, since the Go server doesn't set CORS headers.
 
 ## A note on this codebase
 
