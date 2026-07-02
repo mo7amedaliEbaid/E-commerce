@@ -1,0 +1,4 @@
+.env
+*.log
+/ecom-app
+.DS_Store

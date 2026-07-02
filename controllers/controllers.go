@@ -181,6 +181,29 @@ func SearchProduct() gin.HandlerFunc {
 	}
 }
 
+func GetProductImage() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		productID, err := primitive.ObjectIDFromHex(c.Param("id"))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "invalid product id"})
+			return
+		}
+		var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		var product models.Product
+		err = ProductCollection.FindOne(ctx, bson.M{"_id": productID}).Decode(&product)
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "product not found"})
+			return
+		}
+		if product.Image == nil || *product.Image == "" {
+			c.JSON(http.StatusNotFound, gin.H{"error": "no image set for this product"})
+			return
+		}
+		c.Redirect(http.StatusFound, *product.Image)
+	}
+}
+
 func SearchProductByQuery() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var searchproducts []models.Product
