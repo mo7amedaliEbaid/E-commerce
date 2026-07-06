@@ -1,4 +1,4 @@
-# ecom
+# e-commerce
 
 A small e-commerce app: a Go REST API (using [Gin](https://github.com/gin-gonic/gin) and MongoDB) with a Flutter mobile client. Users can sign up/log in, browse and search products, manage a cart and addresses, and check out. Auth is JWT-based.
 
